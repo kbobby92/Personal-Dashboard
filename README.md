@@ -1,2 +1,2 @@
-# Personal-Dashboard
-My Personal Dashboard
+# Clairvoyance
+A Theory of Temporal Perception
