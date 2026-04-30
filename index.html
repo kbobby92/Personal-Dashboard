@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clairvoyance: A Theory of Temporal Perception</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  :root {
+    --deep: #0a0a12;
+    --void: #0e0e1a;
+    --surface: #13131f;
+    --border: #1e1e30;
+    --accent: #6b5ce7;
+    --accent-soft: #9d8ff5;
+    --gold: #c9a84c;
+    --gold-soft: #e8c97a;
+    --text: #c8c8d8;
+    --text-dim: #7a7a96;
+    --text-bright: #eeeef5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 60%, rgba(74,63,160,0.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Animated star field */
+  .stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: var(--bright, 0.4); }
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    font-weight: 300;
+    color: var(--text-bright);
+    line-height: 1.0;
+    margin-bottom: 1rem;
+    animation: fadeUp 1.2s ease 0.15s both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent-soft);
+    background: linear-gradient(135deg, var(--accent-soft), var(--gold-soft));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-bottom: 3.5rem;
+    animation: fadeUp 1.2s ease 0.3s both;
+  }
+
+  .divider-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    margin: 0 auto 3rem;
+    animation: fadeUp 1.2s ease 0.45s both;
+  }
+
+  .hero-intro {
+    max-width: 600px;
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.9;
+    animation: fadeUp 1.2s ease 0.6s both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,18,0.94);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav a:hover {
+    color: var(--accent-soft);
+    border-bottom-color: rgba(107,92,231,0.4);
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .part-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--text-bright);
+    margin-bottom: 1.75rem;
+    line-height: 1.15;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold-soft);
+    margin: 3rem 0 1rem;
+  }
+
+  p { margin-bottom: 1.4rem; font-size: 1.02rem; }
+
+  strong { color: var(--text-bright); font-weight: 500; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    box-shadow: 0 0 50px rgba(107,92,231,0.08);
+    transition: box-shadow 0.3s;
+  }
+
+  .card:hover { box-shadow: 0 0 60px rgba(107,92,231,0.16); }
+
+  .card-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 1rem;
+  }
+
+  .card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    color: var(--text-bright);
+    margin-bottom: 1.5rem;
+  }
+
+  .dream-box {
+    background: rgba(107,92,231,0.07);
+    border: 1px solid rgba(107,92,231,0.2);
+    border-radius: 3px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .reality-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 3px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .box-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .dream-box .box-label { color: var(--accent-soft); }
+  .reality-box .box-label { color: var(--gold-soft); }
+
+  .box-body { margin: 0; font-size: 0.97rem; }
+
+  .connector {
+    text-align: center;
+    padding: 0.75rem 0;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--accent);
+    padding: 1.5rem 0 1.5rem 2rem;
+    margin: 3rem 0;
+  }
+
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  hr { border: none; height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 0; }
+
+  /* DIAGRAM */
+  .diagram-wrap {
+    background: var(--void);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 6rem 2rem;
+  }
+
+  .diagram-inner { max-width: 920px; margin: 0 auto; }
+
+  .diagram-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--text-bright);
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-micro {
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .tg-cell { padding: 1.75rem; text-align: center; }
+  .tg-cell.past { background: rgba(255,255,255,0.02); }
+  .tg-cell.present {
+    background: rgba(107,92,231,0.12);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+  .tg-cell.future { background: rgba(201,168,76,0.05); }
+
+  .tg-label { font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.5rem; }
+  .tg-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-bright); margin-bottom: 0.5rem; }
+  .tg-cell.present .tg-title { color: var(--accent-soft); }
+  .tg-cell.future .tg-title { color: var(--gold-soft); }
+  .tg-desc { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; }
+
+  .grid-caption { text-align: center; color: var(--text-dim); font-size: 0.85rem; font-style: italic; margin-bottom: 4rem; }
+
+  /* FLOW */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 3.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  .flow-node { text-align: center; padding: 1.25rem; min-width: 130px; }
+
+  .flow-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: transform 0.3s;
+  }
+
+  .flow-node:hover .flow-icon { transform: scale(1.1); }
+
+  .fi-event { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); }
+  .fi-shadow { background: rgba(107,92,231,0.15); border: 1px solid rgba(107,92,231,0.3); }
+  .fi-brain { background: rgba(157,143,245,0.1); border: 1px solid rgba(157,143,245,0.3); }
+  .fi-eye { background: rgba(255,255,255,0.04); border: 1px solid var(--border); }
+
+  .flow-label { font-size: 0.78rem; color: var(--text-bright); font-weight: 500; margin-bottom: 0.2rem; }
+  .flow-sub { font-size: 0.7rem; color: var(--text-dim); line-height: 1.4; }
+  .flow-arrow { color: var(--accent); font-size: 1.2rem; opacity: 0.5; padding: 0 0.25rem; display: flex; align-items: center; animation: pulse 2s ease-in-out infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  /* STEPS */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 3.5rem;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: var(--surface);
+    padding: 1.5rem;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .step:hover { background: rgba(107,92,231,0.07); }
+
+  .step-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(107,92,231,0.15);
+    border: 1px solid rgba(107,92,231,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: var(--accent-soft);
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .step:hover .step-num {
+    background: rgba(107,92,231,0.25);
+    border-color: rgba(107,92,231,0.5);
+  }
+
+  .step h5 { font-size: 0.88rem; font-weight: 500; color: var(--text-bright); margin-bottom: 0.25rem; }
+  .step p { font-size: 0.83rem; color: var(--text-dim); margin: 0; line-height: 1.6; }
+
+  /* CONCLUSION */
+  .conclusion {
+    background: radial-gradient(ellipse at 50% 0%, rgba(107,92,231,0.13) 0%, transparent 70%);
+    border-top: 1px solid var(--border);
+    padding: 8rem 2rem;
+    text-align: center;
+  }
+
+  .conclusion-inner { max-width: 680px; margin: 0 auto; }
+
+  .conclusion h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 2rem; }
+
+  .questions {
+    list-style: none;
+    margin: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .questions li {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-dim);
+    padding: 1.2rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--surface);
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+    cursor: default;
+  }
+
+  .questions li:hover {
+    border-color: rgba(107,92,231,0.4);
+    color: var(--text);
+    background: rgba(107,92,231,0.04);
+  }
+
+  .final {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--accent-soft);
+    margin-top: 3rem;
+    line-height: 1.7;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--deep); }
+  ::-webkit-scrollbar-thumb { background: rgba(107,92,231,0.3); border-radius: 2px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .timeline-grid { grid-template-columns: 1fr; }
+    .tg-cell.present { border-left: none; border-right: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .flow { gap: 0.5rem; }
+    .flow-arrow { transform: rotate(90deg); }
+    nav { gap: 1rem; padding: 0.75rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="hero-content">
+    <div class="eyebrow">A Personal Theory</div>
+    <h1><em>Clairvoyance</em></h1>
+    <p class="subtitle">A Theory of Temporal Perception</p>
+    <div class="divider-line"></div>
+    <p class="hero-intro">What if clairvoyance is not supernatural — but a latent human sense, unlocked by trauma, that perceives information already radiating backward from events yet to arrive? What if the future is not ahead of us, but already here, casting its shadow on the present?</p>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <a href="#accounts">The Accounts</a>
+  <a href="#origin">The Origin</a>
+  <a href="#theory">The Theory</a>
+  <a href="#model">The Model</a>
+  <a href="#determinism">Determinism</a>
+</nav>
+
+<!-- PART 1 -->
+<div id="accounts">
+<div class="section">
+  <div class="part-label">Part One</div>
+  <h2>A Foundation in Experience</h2>
+  <p>Before theory, there is evidence. Not abstract evidence — but specific, undeniable, personal instances of perceiving information that could not have been known. These are the anchors on which everything else rests.</p>
+
+  <div class="card">
+    <div class="card-label">Account One · Age 7–10</div>
+    <h4>The Chicks</h4>
+    <div class="dream-box">
+      <div class="box-label">The Dream</div>
+      <p class="box-body">Walking into the backyard. Newly hatched chicks in their enclosure — three or four colors, but the dark ones stand out. Then: drowning. Some chicks suffocate in their own water dish. Others lie mutilated across the yard.</p>
+    </div>
+    <div class="connector">The child wakes crying. Every detail remains crystalline. The parents listen — it was only a nightmare. Nothing is done.</div>
+    <div class="reality-box">
+      <div class="box-label">That Same Night</div>
+      <p class="box-body">Reality unfolds exactly as dreamed. The dark-colored chicks are found drowned in the water dish. Others lie mutilated throughout the yard. A child who had never considered that a pet could drown in its own water had seen precisely how it would happen.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Account Two · Age 30</div>
+    <h4>The Sunburn</h4>
+    <div class="dream-box">
+      <div class="box-label">The Dream</div>
+      <p class="box-body">Walking into Josh's garage. He stands with hands raised — the gesture of someone who's messed up. His body is covered in burns. His head, bald and exposed, is blistered and oozing. The image is grotesque and specific.</p>
+    </div>
+    <div class="connector">The car show happens the next day. The sky is <em>cold and cloudy</em> — not the weather of sunburn. No obvious reason to expect what's coming.</div>
+    <div class="reality-box">
+      <div class="box-label">The Reality</div>
+      <p class="box-body">Josh texts after: severely sunburned. Because he is bald, blisters cover his head exactly as seen in the dream. The specific vulnerability, the specific injury, the specific gesture — all matched.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Account Three · Age 30+</div>
+    <h4>The Voice in the Dark</h4>
+    <div class="dream-box">
+      <div class="box-label">The Dream</div>
+      <p class="box-body">Complete darkness — no image, no shape, no face. Only a voice. An old man, struggling to speak, forcing words out with great effort. He was trying to communicate one thing: that he was dying. The voice was labored, broken, desperate to be heard.</p>
+    </div>
+    <div class="connector">Upon waking, the dream was vivid enough to recount. The sound of the voice — its particular difficulty, its strained quality — stayed. It was described to a family member.</div>
+    <div class="reality-box">
+      <div class="box-label">The Reality</div>
+      <p class="box-body">The grandfather died days later. When the voice was described to the mother — the way it struggled, the effort behind each word — she recognized it immediately. That, she said, sounded exactly like him. In his final days, he had developed aphasia, a condition that robs a person of the ability to speak fluidly. This was something that had never been shared, never known. The dream had not just delivered the message. It had delivered the messenger — in the only form he could still speak.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Account Four · Late 20s</div>
+    <h4>The Room</h4>
+    <div class="dream-box">
+      <div class="box-label">The Dream</div>
+      <p class="box-body">A hospital room seen from above — the perspective of a small camera fixed in the corner, looking down. The room is dark. The entire left wall is floor-to-ceiling glass, and beyond it a violent storm rages: thunder, lightning, chaos pressing against the pane. In the center of the room, suspended in the air above the bed, floats a box — wrapped in chains that extend to every corner of the room, holding it in place. A small sink on the far wall, the kind every hospital room has. A bed beneath the suspended weight. No person visible. Only the room, the storm, and the thing that hung there — death itself, present and chained to every corner of the space.</p>
+    </div>
+    <div class="connector">One to two weeks pass. A group gathers to say goodbye to Amy — a best friend's mother, dying of cancer. They pile into her room as many as will fit.</div>
+    <div class="reality-box">
+      <div class="box-label">The Reality</div>
+      <p class="box-body">It is the same room. The window, the sink, the dimensions — identical. Outside, no storm. What the storm had represented became clear only standing inside: the world beyond that glass was chaos — grief, the uncontrollable, everything that could not enter. But inside the room itself was something unexpected. A calm. A bliss. A profound, still peace that settled over everyone present. The group fills the space and there is only one place left: the corner. The exact corner from the dream. Seated low to the ground, the recognition arrives fully. In the center, in the bed where the floating box had been, is Amy — her son to her right, holding her hand. The dream had not shown a person. It had shown what was already there: death suspended over the room, and surrounding it, an inexplicable serenity. She passed shortly after.</p>
+    </div>
+  </div>
+
+  <h3>The Pattern</h3>
+  <p>These are not isolated incidents. Multiple times per year, information arrives — sometimes as vivid architectural dreams, sometimes as spontaneous visions, sometimes as a quiet <em>knowing</em>: a compelling pull toward a subject or direction, followed by an event that makes the knowing suddenly coherent.</p>
+
+  <div class="pull-quote">
+    <p>"Sometimes I cannot tell the difference between what happened in the dream and what happened in reality. They were so similar I cannot separate them."</p>
+  </div>
+</div>
+<hr>
+</div>
+
+<!-- PART 2 -->
+<div id="origin">
+<div class="section">
+  <div class="part-label">Part Two</div>
+  <h2>The Origin — How the Sense Awakens</h2>
+
+  <h3>Trauma and Dissociation</h3>
+  <p>Trauma creates dissociation. This is not metaphor — it is neuroscience. When a child experiences severe, sustained abuse, the brain activates its most primal survival mechanism: the mind splits from the body. Consciousness fragments. The unbearable present is abandoned, and awareness leaps elsewhere.</p>
+  <p>This is not weakness. It is the brain's most sophisticated survival tool — an emergency exit from an unbearable now.</p>
+
+  <h3>The Sixth Sense</h3>
+  <p>Humans possess five recognized senses. But there may be a sixth — atrophied by civilization, overwhelmed by the dominance of sight, sound, touch, taste, and smell. In most people, it is drowned out by louder signals and never perceived.</p>
+  <p>This sense: <strong>temporal perception</strong>. The ability to detect information about events not yet arrived at the present moment. Just as photoreceptors in the eye evolved to detect photons, perhaps neural structures exist that perceive what we might call <em style="color:var(--accent-soft)">time particles</em> — information carried forward from future events.</p>
+
+  <h3>The Wave Model</h3>
+  <p>But perhaps <em>particle</em> is the wrong metaphor. Consider instead: <strong>waves</strong>. Far out at sea, a ship — or a storm, or a collision — disturbs the water. The event itself has not arrived. It may be miles away, invisible beyond the horizon. And yet the ocean already knows. The waves reach the shore <em>before</em> the thing that cast them.</p>
+  <p>We are the shore. Future events are the disturbance — already occurring somewhere out in the deep of spacetime, already generating their waves. Those waves travel backward through time, washing over us before the event itself arrives at our present moment. Most people stand on the shore and feel nothing. But the temporal sense — awakened, attuned — feels the water move. It reads the shape of the wave and knows: <em>something is coming</em>. Not what it is exactly, not when precisely — but its outline. Its emotional weight. Its color.</p>
+  <p>This reframes clairvoyance entirely. It is not about <em>seeing</em> the future. It is about <em>feeling it arrive</em> — the way a sailor reads the swell and knows weather is coming long before the clouds appear on the horizon.</p>
+
+  <h3>The Paradox of the Unlock</h3>
+  <p>Dissociation creates a strange paradox. When consciousness fragments, the normal sensory filters weaken. But simultaneously, the survival instinct sharpens — the brain becomes hyperaware, scanning for anything that might protect the organism.</p>
+
+  <div class="pull-quote">
+    <p>A dissociated mind in a state of heightened awareness can perceive what normal consciousness filters out.</p>
+  </div>
+
+  <p>In this state — simultaneously detached and hyper-alert — the temporal sense finds space to activate. The child's brain, forced to survive extremity, develops an antenna for what's coming. Not consciously. Necessarily.</p>
+</div>
+<hr>
+</div>
+
+<!-- PART 3 -->
+<div id="theory">
+<div class="section">
+  <div class="part-label">Part Three</div>
+  <h2>What Clairvoyance Might Reveal About Time</h2>
+
+  <h3>The Block Universe: We Are Stationary</h3>
+  <p>We believe we move through time. Past → Present → Future. We are travelers in a river of moments, always moving forward.</p>
+  <p>This may be an illusion. The <strong>Block Universe</strong> model in physics suggests something radically different: <em>all moments exist simultaneously.</em> Past, present, and future are not stages we pass through — they are coordinates in spacetime, equally real. We are not moving. We are stationary. And events approach us.</p>
+
+  <h3>The Shadow Analogy</h3>
+  <p>Imagine standing still while an object moves toward you from a distance. The object itself hasn't reached you yet. But it casts a shadow on the ground where you stand. You see the shadow first — the shape, the outline — not the object itself, but the <em>information it radiates ahead of itself</em>.</p>
+  <p><strong>This is clairvoyance.</strong> Events exist in the block, already real in spacetime. Before they arrive at "now," their shadows reach us first. Information radiates backward from their position in time. The person with an awakened temporal sense perceives these shadows early — they see the shape of what's coming before it arrives.</p>
+
+  <h3>Wave/Particle: Information as Radiation</h3>
+  <p>Just as light exists as both wave and particle, perhaps temporal information operates the same way — sometimes arriving as a discrete signal, a sudden vivid knowing; other times as a slow swell felt before it's understood. In either form, it is <em style="color:var(--accent-soft)">temporal radiation</em> — information carrying the structure of future events, emanating outward from their position in the block.</p>
+  <p>The capacity to receive this is not rare. It is universal. Every person carries the antenna — built into consciousness itself. What differs is not ability but <em>awareness</em>: most move through life with the signal present but unrecognized, filtered out by noise, habit, and the assumption that such things cannot be real. The wave reaches every shore. Not everyone has learned to feel it.</p>
+</div>
+<hr>
+</div>
+
+<!-- DIAGRAM -->
+<div id="model" class="diagram-wrap">
+  <div class="diagram-inner">
+    <p class="diagram-title">The Model</p>
+
+    <div class="section-micro">The Block — All Moments Exist Simultaneously</div>
+    <div class="timeline-grid">
+      <div class="tg-cell past">
+        <div class="tg-label">Past</div>
+        <div class="tg-title">Known</div>
+        <div class="tg-desc">Events that have already arrived at consciousness. Fixed. Remembered.</div>
+      </div>
+      <div class="tg-cell present">
+        <div class="tg-label">Present</div>
+        <div class="tg-title">Now ◉</div>
+        <div class="tg-desc">Where the observer is rooted. Where consciousness normally registers events.</div>
+      </div>
+      <div class="tg-cell future">
+        <div class="tg-label">Future</div>
+        <div class="tg-title">Approaching</div>
+        <div class="tg-desc">Already real in spacetime. Radiating shadows backward toward the present.</div>
+      </div>
+    </div>
+    <p class="grid-caption">The observer is stationary. Events approach. Clairvoyants perceive the shadow before the event arrives.</p>
+
+    <div class="section-micro" style="margin-bottom:2rem;">The Flow of Temporal Information</div>
+
+    <style>
+      .flow-diagram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem 0 3.5rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      .fd-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex-shrink: 0;
+        width: 140px;
+        padding: 0.5rem;
+      }
+      .fd-icon-wrap { margin-bottom: 0.85rem; transition: filter 0.3s; }
+      .fd-source .fd-icon-wrap { filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
+      .fd-source:hover .fd-icon-wrap { filter: drop-shadow(0 0 22px rgba(201,168,76,0.6)); }
+      .fd-shadow-node .fd-icon-wrap { filter: drop-shadow(0 0 10px rgba(107,92,231,0.25)); }
+      .fd-shadow-node:hover .fd-icon-wrap { filter: drop-shadow(0 0 20px rgba(107,92,231,0.5)); }
+      .fd-receiver .fd-icon-wrap { filter: drop-shadow(0 0 10px rgba(157,143,245,0.2)); }
+      .fd-receiver:hover .fd-icon-wrap { filter: drop-shadow(0 0 20px rgba(157,143,245,0.45)); }
+      .fd-perception .fd-icon-wrap { filter: drop-shadow(0 0 10px rgba(107,92,231,0.2)); }
+      .fd-perception:hover .fd-icon-wrap { filter: drop-shadow(0 0 20px rgba(107,92,231,0.5)); }
+      .fd-label { font-size: 0.8rem; font-weight: 500; color: var(--text-bright); margin-bottom: 0.3rem; }
+      .fd-sub { font-size: 0.68rem; color: var(--text-dim); line-height: 1.5; }
+      .fd-connector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+        gap: 0.35rem;
+        padding: 0 0.15rem;
+        margin-bottom: 2.5rem;
+      }
+      .fd-connector-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        opacity: 0.65;
+        white-space: nowrap;
+      }
+      .fd-arrow-svg { width: 68px; height: 26px; overflow: visible; }
+      @media (max-width: 680px) {
+        .flow-diagram { flex-direction: column; gap: 0.25rem; }
+        .fd-connector { flex-direction: row; margin-bottom: 0; gap: 0.5rem; }
+        .fd-arrow-svg { transform: rotate(90deg); }
+        .fd-connector-label { display: none; }
+      }
+    </style>
+
+    <div class="flow-diagram">
+
+      <!-- 1. Future Event -->
+      <div class="fd-node fd-source">
+        <div class="fd-icon-wrap">
+          <svg width="76" height="76" viewBox="0 0 76 76">
+            <circle cx="38" cy="38" r="26" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+            <circle cx="38" cy="38" r="16" fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.45)" stroke-width="1"/>
+            <circle cx="38" cy="38" r="7" fill="rgba(201,168,76,0.75)"><animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite"/></circle>
+            <line x1="38" y1="4" x2="38" y2="13" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+            <line x1="38" y1="63" x2="38" y2="72" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+            <line x1="4" y1="38" x2="13" y2="38" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+            <line x1="63" y1="38" x2="72" y2="38" stroke="rgba(201,168,76,0.35)" stroke-width="1.5"/>
+            <line x1="11" y1="11" x2="18" y2="18" stroke="rgba(201,168,76,0.2)" stroke-width="1.2"/>
+            <line x1="65" y1="65" x2="58" y2="58" stroke="rgba(201,168,76,0.2)" stroke-width="1.2"/>
+            <line x1="65" y1="11" x2="58" y2="18" stroke="rgba(201,168,76,0.2)" stroke-width="1.2"/>
+            <line x1="11" y1="65" x2="18" y2="58" stroke="rgba(201,168,76,0.2)" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="fd-label">Future Event</div>
+        <div class="fd-sub">Already real in the block. Radiating its shadow backward.</div>
+      </div>
+
+      <!-- Connector 1 -->
+      <div class="fd-connector">
+        <div class="fd-connector-label">casts a shadow</div>
+        <svg class="fd-arrow-svg" viewBox="0 0 80 26">
+          <path d="M4,13 Q22,5 44,9 Q62,12 72,13" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" fill="none" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.8s" repeatCount="indefinite"/></path>
+          <path d="M4,13 Q22,19 44,16 Q62,14 72,13" stroke="rgba(201,168,76,0.25)" stroke-width="1" fill="none" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.2s" repeatCount="indefinite"/></path>
+          <polygon points="72,8 80,13 72,18" fill="rgba(201,168,76,0.55)"/>
+        </svg>
+      </div>
+
+      <!-- 2. Shadow -->
+      <div class="fd-node fd-shadow-node">
+        <div class="fd-icon-wrap">
+          <svg width="76" height="76" viewBox="0 0 76 76">
+            <ellipse cx="38" cy="38" rx="28" ry="20" fill="rgba(107,92,231,0.07)" stroke="rgba(107,92,231,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+            <path d="M52,38 Q44,28 36,38 Q44,48 52,38" fill="rgba(107,92,231,0.14)" stroke="rgba(107,92,231,0.4)" stroke-width="1"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite"/></path>
+            <path d="M62,38 Q50,20 38,38 Q50,56 62,38" fill="none" stroke="rgba(107,92,231,0.22)" stroke-width="1"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.5s" begin="0.4s" repeatCount="indefinite"/></path>
+            <path d="M72,38 Q56,14 38,38 Q56,62 72,38" fill="none" stroke="rgba(107,92,231,0.1)" stroke-width="1"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="2.5s" begin="0.8s" repeatCount="indefinite"/></path>
+            <circle cx="38" cy="38" r="4" fill="rgba(107,92,231,0.6)"/>
+          </svg>
+        </div>
+        <div class="fd-label">Shadow Cast</div>
+        <div class="fd-sub">A wave of information travels backward before the event arrives.</div>
+      </div>
+
+      <!-- Connector 2 -->
+      <div class="fd-connector">
+        <div class="fd-connector-label">reaches</div>
+        <svg class="fd-arrow-svg" viewBox="0 0 80 26">
+          <path d="M4,13 Q40,5 72,13" stroke="rgba(107,92,231,0.5)" stroke-width="1.5" fill="none" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.5s" repeatCount="indefinite"/></path>
+          <polygon points="72,8 80,13 72,18" fill="rgba(107,92,231,0.6)"/>
+        </svg>
+      </div>
+
+      <!-- 3. Temporal Receptor -->
+      <div class="fd-node fd-receiver">
+        <div class="fd-icon-wrap">
+          <svg width="76" height="76" viewBox="0 0 76 76">
+            <ellipse cx="38" cy="42" rx="20" ry="16" fill="rgba(157,143,245,0.08)" stroke="rgba(157,143,245,0.28)" stroke-width="1.2"/>
+            <path d="M10,38 Q22,27 34,38" stroke="rgba(107,92,231,0.6)" stroke-width="1.8" fill="none"><animate attributeName="opacity" values="0.2;1;0.2" dur="2s" repeatCount="indefinite"/></path>
+            <path d="M6,38 Q18,22 34,38" stroke="rgba(107,92,231,0.35)" stroke-width="1.2" fill="none"><animate attributeName="opacity" values="0.1;0.6;0.1" dur="2s" begin="0.35s" repeatCount="indefinite"/></path>
+            <path d="M2,38 Q16,18 34,38" stroke="rgba(107,92,231,0.15)" stroke-width="0.8" fill="none"><animate attributeName="opacity" values="0.05;0.4;0.05" dur="2s" begin="0.7s" repeatCount="indefinite"/></path>
+            <circle cx="38" cy="40" r="4" fill="rgba(157,143,245,0.85)"><animate attributeName="r" values="4;5.5;4" dur="2s" repeatCount="indefinite"/></circle>
+            <circle cx="48" cy="34" r="2" fill="rgba(157,143,245,0.5)"/>
+            <circle cx="30" cy="36" r="2" fill="rgba(157,143,245,0.5)"/>
+            <circle cx="46" cy="50" r="1.8" fill="rgba(157,143,245,0.4)"/>
+            <circle cx="32" cy="50" r="1.5" fill="rgba(157,143,245,0.4)"/>
+            <line x1="38" y1="40" x2="48" y2="34" stroke="rgba(157,143,245,0.3)" stroke-width="1"/>
+            <line x1="38" y1="40" x2="30" y2="36" stroke="rgba(157,143,245,0.3)" stroke-width="1"/>
+            <line x1="38" y1="40" x2="46" y2="50" stroke="rgba(157,143,245,0.3)" stroke-width="1"/>
+            <line x1="38" y1="40" x2="32" y2="50" stroke="rgba(157,143,245,0.3)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="fd-label">Temporal Receptor</div>
+        <div class="fd-sub">Consciousness receives the wave before the event itself arrives.</div>
+      </div>
+
+      <!-- Connector 3 -->
+      <div class="fd-connector">
+        <div class="fd-connector-label">renders as</div>
+        <svg class="fd-arrow-svg" viewBox="0 0 80 26">
+          <line x1="4" y1="13" x2="70" y2="13" stroke="rgba(157,143,245,0.4)" stroke-width="1.5" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.3s" repeatCount="indefinite"/></line>
+          <polygon points="72,8 80,13 72,18" fill="rgba(157,143,245,0.65)"/>
+        </svg>
+      </div>
+
+      <!-- 4. Perception -->
+      <div class="fd-node fd-perception">
+        <div class="fd-icon-wrap">
+          <svg width="76" height="76" viewBox="0 0 76 76">
+            <path d="M8,38 Q38,14 68,38 Q38,62 8,38Z" fill="rgba(255,255,255,0.03)" stroke="rgba(200,200,220,0.22)" stroke-width="1.2"/>
+            <circle cx="38" cy="38" r="11" fill="rgba(107,92,231,0.14)" stroke="rgba(107,92,231,0.38)" stroke-width="1"/>
+            <circle cx="38" cy="38" r="5" fill="rgba(107,92,231,0.8)"><animate attributeName="r" values="5;6.5;5" dur="3s" repeatCount="indefinite"/></circle>
+            <circle cx="38" cy="38" r="17" fill="none" stroke="rgba(107,92,231,0.12)" stroke-width="1"><animate attributeName="r" values="17;25;17" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="3s" repeatCount="indefinite"/></circle>
+            <circle cx="38" cy="38" r="22" fill="none" stroke="rgba(107,92,231,0.06)" stroke-width="1"><animate attributeName="r" values="22;30;22" dur="3s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="3s" begin="0.5s" repeatCount="indefinite"/></circle>
+          </svg>
+        </div>
+        <div class="fd-label">Perception</div>
+        <div class="fd-sub">Dream, vision, or knowing — the shadow made visible.</div>
+      </div>
+
+    </div>
+
+    <div class="section-micro" style="margin-top:2rem;margin-bottom:1rem;">How the Sense is Unlocked</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><h5>Sustained Trauma</h5><p>Severe, prolonged stress forces the brain into survival mode. Normal perceptual filters are overwhelmed.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h5>Dissociation Activates</h5><p>Consciousness splits from the body. The dominant senses loosen their grip. The mind becomes unmoored from the immediate present.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h5>Hyperawareness Simultaneously Activates</h5><p>The survival instinct sharpens to compensate. The brain scans for any information that might indicate threat or safety.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h5>The Sixth Sense Opens</h5><p>In this paradoxical state — detached yet hyperaware — the temporal sense finds space to operate. The latent neural antenna activates.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div><h5>Temporal Information is Received</h5><p>The brain catches time particles — shadows of future events — and renders them as dreams, visions, or knowings depending on the individual.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PART 4 -->
+<div id="determinism">
+<div class="section">
+  <div class="part-label">Part Four</div>
+  <h2>Implications of Determinism and the Illusion of Choice</h2>
+
+  <h3>The Future is Already There</h3>
+  <p>If clairvoyance works — if we can perceive information about events before they occur — then those events already exist in spacetime. They are not possibilities. They are <em>actualities</em>. Already real, just not yet arrived at the "now" coordinate. This implies <strong>determinism</strong>: the future is not open. It is fixed.</p>
+
+  <h3>And Yet — Choice Remains</h3>
+  <p>We experience choice. We feel ourselves deciding. The sense of freedom is real, even if the block is already complete. How can both be true?</p>
+
+  <p>The shadow holds both possibilities. The event that casts the shadow will occur — but the information it carries includes <em>all variables</em>, including whether anyone acts on the warning it provides. The non-intervention was already part of the future being perceived.</p>
+  <p><strong>We experience freedom because we are part of the deterministic pattern. We are the ones who choose — and our choices are already what they always were going to be.</strong></p>
+</div>
+<hr>
+</div>
+
+<!-- CONCLUSION -->
+<div class="conclusion">
+  <div class="conclusion-inner">
+    <h2>A Theory, Not a Proof</h2>
+    <p style="max-width:560px;margin:0 auto 1.5rem;font-size:1.02rem;color:var(--text);">An attempt to explain a real phenomenon — repeated, specific, undeniable instances of perceiving information about events before they occur — using frameworks from neuroscience, physics, and the study of consciousness.</p>
+</div>
+</div>
+
+<div style="text-align:center;padding:3rem 2rem;border-top:1px solid var(--border);font-size:0.72rem;letter-spacing:0.15em;color:var(--text-dim);">© Kevin McElvain 2026. All rights reserved.</div>
+
+<script>
+  // Generate star field
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    star.style.cssText = `
+      left: ${Math.random() * 100}%;
+      top: ${Math.random() * 100}%;
+      width: ${size}px;
+      height: ${size}px;
+      --dur: ${2 + Math.random() * 5}s;
+      --delay: ${Math.random() * 6}s;
+      --bright: ${0.2 + Math.random() * 0.6};
+    `;
+    container.appendChild(star);
+  }
+
+  // Fade in sections on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .pull-quote, h3, .steps, .flow').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
